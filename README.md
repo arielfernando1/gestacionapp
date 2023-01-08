@@ -1,18 +1,40 @@
-# firebase_test
+# BabyPhotoStory
 
-Implementation of Firebase Authentication and Firestore in Flutter.
+Aplicacion con el proposito de que las madres en gestacion puedan registrar los recuerdos de su embarazo mediante fotos, audios y texto para luego generar un archivo pdf con todos los datos registrados.
+
+Se usa Firestore para almacenar los datos de los usuarios y sus fotos, audios y textos.
+
+Las acciones que el usuario puede realizar sobre un post son:
+
+* Crear un post
+* Editar un post
+* Eliminar un post
+
+Un post puede ser de tipo:
+
+* Foto
+* Audio
+* Texto
+
+La estructura de un post es la siguiente:
+
+```json
+{
+  "id": "string",
+  "type": "int", // 0: foto, 1: audio, 2: texto
+  "title": "string",
+  "description": "string",
+  "date_created": "string",
+  "file": "string", // archivo codificado en base64
+  "uuid": "string" // ID del usuario que creó el post
+}
+```
+Librerias usadas:
+
+* [google_sign_in](https://pub.dev/packages/google_sign_in) 
+* [firebase_auth](https://pub.dev/packages/firebase_auth)
+* [cloud_firestore](https://pub.dev/packages/cloud_firestore)
+* [firebase_storage](https://pub.dev/packages/firebase_storage)
+* [file_picker](https://pub.dev/packages/file_picker)
 
 
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
