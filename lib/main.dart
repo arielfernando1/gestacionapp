@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_test/firebase_options.dart';
+import 'package:firebase_test/pages/bitacora/add_audio_page.dart';
 import 'package:firebase_test/pages/bitacora/addphoto_page.dart';
 import 'package:firebase_test/pages/bitacora/bitacora_page.dart';
 import 'package:firebase_test/pages/login_page.dart';
 import 'package:firebase_test/pages/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'classes/user.dart';
 
 void main() async {
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/info': (context) => const UserInfoPage(),
         '/home': (context) => BitacoraPage(),
         '/photo': (context) => const PhotoPage(),
+        '/audio': (context) => const AudioPage(),
       },
     );
   }
