@@ -8,12 +8,17 @@ import 'package:firebase_test/pages/bitacora/bitacora_page.dart';
 import 'package:firebase_test/pages/news_page.dart';
 import 'package:firebase_test/pages/testpage.dart';
 import 'package:firebase_test/pages/user_info.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
+// ignore: depend_on_referenced_packages
 
 import 'home_page.dart';
 
@@ -27,7 +32,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
   ],
 );
 
-void main() {
+Future<void> main() async {
   runApp(
     const MaterialApp(
       home: LoginPage(),
@@ -43,13 +48,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
   int selectedIndex = 0;
   GoogleSignInAccount? _currentUser;
   final widgetOptions = [
     BitacoraPage(),
     const TestPage(),
     const NewsPage(),
-    const UserInfoPage(),
   ];
   void onItemTapped(int index) {
     setState(() {
@@ -179,11 +184,23 @@ class LoginPageState extends State<LoginPage> {
               text: 'Google',
             ),
             FacebookAuthButton(
-              onPressed: () {},
+              onPressed: () async {
+                await FacebookAuth.instance.login();
+                // ignore: use_build_context_synchronously
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ),
+                );
+              },
               text: 'Facebook',
             ),
             EmailAuthButton(
-              onPressed: () {},
+              onPressed: () {
+                // FirebaseUI login
+                // ignore: use_build_context_synchronously
+              },
               text: 'E-mail',
             ),
           ],

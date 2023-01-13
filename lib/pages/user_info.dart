@@ -45,6 +45,17 @@ class _UserInfoPageState extends State<UserInfoPage> {
     // user info widget
     if (u != null) {
       return Scaffold(
+        appBar: AppBar(
+          // no back button
+          automaticallyImplyLeading: false,
+          title: const Text('Perfil'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: _logout,
+            )
+          ],
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +71,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               ),
               //user email
               Text(
-                'Correo: ${u.email!}',
+                'Correo: ${u.email}',
                 style: const TextStyle(fontSize: 20),
               ),
               Text(

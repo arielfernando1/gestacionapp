@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/classes/post.dart';
 import 'package:firebase_test/classes/user.dart';
 import 'package:firebase_test/firebase_controllers/firestore_controller.dart';
@@ -18,15 +19,14 @@ class PhotoPage extends StatefulWidget {
 }
 
 class _PhotoPageState extends State<PhotoPage> {
-  late CurrentUser user = CurrentUser();
+  late User user;
   @override
   Widget build(BuildContext context) {
     TextEditingController titleController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     Firestore firestore = Firestore();
-    user = Provider.of<CurrentUser>(context);
-    final u = user.currentUser?.uid;
+    user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Añadir Foto'),
@@ -67,7 +67,7 @@ class _PhotoPageState extends State<PhotoPage> {
                     // create post instance
                     final post = Post(
                         id: '',
-                        uuid: u!,
+                        uuid: user.uid,
                         date: DateTime.now(),
                         title: titleController.text,
                         description: descriptionController.text,
@@ -76,7 +76,7 @@ class _PhotoPageState extends State<PhotoPage> {
                     // save post
                     await firestore.addPost(post);
                     // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, '/home');
                   }),
                   child: const Text('Seleccionar Foto')),
             ]),

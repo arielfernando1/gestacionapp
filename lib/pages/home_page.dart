@@ -1,5 +1,5 @@
 import 'package:firebase_test/pages/testpage.dart';
-import 'package:firebase_test/pages/user_info.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'bitacora/bitacora_page.dart';
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     BitacoraPage(),
     const TestPage(),
     const NewsPage(),
-    const UserInfoPage(),
+    const ProfileScreen()
   ];
   void onItemTapped(int index) {
     setState(() {
@@ -48,12 +48,12 @@ class _HomePageState extends State<HomePage> {
             label: 'Bitácora',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: 'Cámara',
+            icon: Icon(Icons.info),
+            label: 'Informate',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.article),
-            label: 'Noticias',
+            icon: Icon(Icons.calendar_month),
+            label: 'Recordatorios',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
