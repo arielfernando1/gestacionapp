@@ -3,12 +3,10 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/classes/post.dart';
-import 'package:firebase_test/classes/user.dart';
 import 'package:firebase_test/firebase_controllers/firestore_controller.dart';
 import 'package:flutter/material.dart';
 // import filepicker
 import 'package:file_picker/file_picker.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class PhotoPage extends StatefulWidget {

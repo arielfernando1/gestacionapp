@@ -1,6 +1,6 @@
 class Post {
   String id;
-  int postType; // 1 = text, 2 = image, 3 = audio
+  int postType; // 1 = image, 2 = audio, 3 = text
   String uuid;
   String title;
   String description;

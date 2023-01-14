@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/classes/user.dart';
 import 'package:firebase_test/firebase_controllers/firestore_controller.dart';
-import 'package:firebase_test/widgets/post_card.dart';
+import 'package:firebase_test/widgets/cards/photo_card.dart';
+import 'package:firebase_test/widgets/card_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:provider/provider.dart';
@@ -51,106 +52,38 @@ class _BitacoraPageState extends State<BitacoraPage> {
             if (snapshot.hasData) {
               final posts = snapshot.data;
               return ListView.builder(
-                itemCount: posts!.length,
-                itemBuilder: (context, index) {
-                  final post = posts[index];
-
-                  if (post.postType == 1) {
+                  itemCount: posts!.length,
+                  itemBuilder: (context, index) {
+                    final post = posts[index];
+                    // if (post.postType == 1) {
                     // return card with post file as image that is in base64
-                    return Container(
-                      margin: const EdgeInsets.all(6.00),
-                      // ignore: sort_child_properties_last
-                      child: PostCard(post: post),
-                      // Card(
-                      //   child: ListTile(
-                      //     // leading with circle avatar
-                      //     leading: CircleAvatar(
-                      //       radius: 48,
-                      //       backgroundImage: MemoryImage(
-                      //         base64Decode(post.file),
-                      //       ),
-                      //     ),
-                      //     title: Text(
-                      //       post.title,
-                      //       style: const TextStyle(
-                      //           fontWeight: FontWeight.bold,
-                      //           fontSize: 20,
-                      //           color: Colors.white),
-                      //     ),
-                      //     subtitle: Text(
-                      //       post.description,
-                      //       style: const TextStyle(
-                      //           fontSize: 15, color: Colors.white),
-                      //     ),
-                      //     //trailing: Text(post.date.toString()),
-                      //     onLongPress: () {
-                      //       showDialog(
-                      //         context: context,
-                      //         builder: (context) {
-                      //           return AlertDialog(
-                      //             title: const Text('Eliminar'),
-                      //             content:
-                      //                 const Text('¿Desea eliminar este post?'),
-                      //             actions: <Widget>[
-                      //               TextButton(
-                      //                 onPressed: () {
-                      //                   Navigator.of(context).pop();
-                      //                 },
-                      //                 child: const Text('Cancelar'),
-                      //               ),
-                      //               TextButton(
-                      //                 onPressed: () {
-                      //                   widget.firestore.destroyPost(post.id);
-                      //                   setState(() {});
-                      //                   Navigator.of(context).pop();
-                      //                 },
-                      //                 child: const Text('Eliminar'),
-                      //               ),
-                      //             ],
-                      //           );
-                      //         },
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
-
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: MemoryImage(
-                            base64Decode(post.file),
-                          ),
-                          fit: BoxFit.fitWidth,
-                          opacity: 0.5,
-                        ),
-                      ),
-                      // date and icon
-                    );
-                  } else if (post.postType == 2) {
-                    // return card with post info audio and date and icon
-                    return Card(
-                      // card size
-                      child: ListTile(
-                        leading: const Icon(Icons.audiotrack,
-                            color: Colors.pink, size: 40),
-                        title: Text(post.title),
-                        subtitle: Text(post.description),
-                        trailing: Text(post.date.toString()),
-                      ),
-                    );
-                  } else {
-                    // return card with post info text and date and icon
-                    return Card(
-                      child: ListTile(
-                        leading: const Icon(Icons.abc,
-                            color: Colors.green, size: 40),
-                        title: Text(post.title),
-                        subtitle: Text(post.description),
-                        trailing: Text(post.date.toString()),
-                      ),
-                    );
+                    return CardContainer(post: post);
+                    // } else if (post.postType == 2) {
+                    //   // return card with post info audio and date and icon
+                    //   return Card(
+                    //     // card size
+                    //     child: ListTile(
+                    //       leading: const Icon(Icons.audiotrack,
+                    //           color: Colors.pink, size: 40),
+                    //       title: Text(post.title),
+                    //       subtitle: Text(post.description),
+                    //       trailing: Text(post.date.toString()),
+                    //     ),
+                    //   );
+                    // } else {
+                    //   // return card with post info text and date and icon
+                    //   return Card(
+                    //     child: ListTile(
+                    //       leading: const Icon(Icons.abc,
+                    //           color: Colors.green, size: 40),
+                    //       title: Text(post.title),
+                    //       subtitle: Text(post.description),
+                    //       trailing: Text(post.date.toString()),
+                    //     ),
+                    //   );
                   }
-                },
-              );
+                  // },
+                  );
             } else {
               return const Center(child: CircularProgressIndicator());
             }
@@ -170,7 +103,10 @@ class _BitacoraPageState extends State<BitacoraPage> {
                 child: const Icon(Icons.image),
               ),
               FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/audio')
+                      .then((value) => setState(() {}));
+                },
                 child: const Icon(Icons.audiotrack),
               ),
               FloatingActionButton(

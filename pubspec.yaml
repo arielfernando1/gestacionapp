@@ -51,6 +51,12 @@ dependencies:
   firebase_ui_oauth_google: ^1.0.14
   firebase_ui_oauth_facebook: ^1.0.14
   timeago: ^3.3.0
+  flutter_sound: ^9.2.13
+  audio_session: ^0.1.13
+  permission_handler: ^10.2.0
+  record: ^4.4.4
+  audioplayers: ^2.0.0
+  stop_watch_timer: ^2.0.0
 dev_dependencies:
   test: ^1.16.4
   flutter_test:
