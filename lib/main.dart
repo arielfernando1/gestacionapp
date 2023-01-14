@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_test/firebase_options.dart';
-import 'package:firebase_test/pages/bitacora/addphoto_page.dart';
+import 'package:firebase_test/pages/bitacora/add_audio_page.dart';
+import 'package:firebase_test/pages/bitacora/add_photo_page.dart';
 import 'package:firebase_test/pages/home_page.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_facebook/firebase_ui_oauth_facebook.dart';
@@ -35,14 +36,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      // ignore: prefer_const_literals_to_create_immutables
+
+      title: 'Gestación',
       theme: ThemeData(
         primaryColor: Colors.pink,
         primarySwatch: Colors.pink,
-        cardTheme: const CardTheme(
-          color: Colors.transparent,
-          elevation: 5,
-        ),
+        // cardTheme: const CardTheme(
+        //   color: Colors.transparent,
+        //   elevation: 5,
+        // ),
       ),
       initialRoute:
           FirebaseAuth.instance.currentUser == null ? '/sigin' : '/profile',
@@ -96,6 +99,7 @@ class _MyAppState extends State<MyApp> {
           ], flowKey: args['flowKey'], action: args['action']);
         },
         '/photo': (context) => const PhotoPage(),
+        '/audio': (context) => AudioPage(),
       },
     );
   }
