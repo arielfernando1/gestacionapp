@@ -1,9 +1,11 @@
-import 'package:firebase_test/pages/testpage.dart';
+import 'dart:developer';
+
+import 'package:firebase_test/pages/info/info_page.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'bitacora/bitacora_page.dart';
-import 'news_page.dart';
+import 'calendar_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,7 +22,20 @@ class _HomePageState extends State<HomePage> {
     BitacoraPage(),
     const TestPage(),
     const NewsPage(),
-    const ProfileScreen()
+    ProfileScreen(
+      actions: [
+        SignedOutAction((context) {
+          Navigator.pushReplacementNamed(context, '/signin');
+        }),
+        // AuthStateChangeAction<CredentialLinked>((context, state) {
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     const SnackBar(
+        //       content: Text("Provider sucessfully linked!"),
+        //     ),
+        //   );
+        // }),
+      ],
+    )
   ];
   void onItemTapped(int index) {
     setState(() {
@@ -32,6 +47,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // _currentUser = widget.user;
     super.initState();
+    log('HomePage');
   }
 
   @override
@@ -44,8 +60,8 @@ class _HomePageState extends State<HomePage> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Bitácora',
+            icon: Icon(Icons.book),
+            label: 'Album',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),

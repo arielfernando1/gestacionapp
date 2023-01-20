@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.firebase_test">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- record audio -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <application
         android:label="firebase_test"
         android:name="${applicationName}"

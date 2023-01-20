@@ -5,8 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/auth.dart';
 import 'package:firebase_test/classes/user.dart';
 import 'package:firebase_test/pages/bitacora/bitacora_page.dart';
-import 'package:firebase_test/pages/news_page.dart';
-import 'package:firebase_test/pages/testpage.dart';
+
 import 'package:firebase_test/pages/user_info.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,9 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 // ignore: depend_on_referenced_packages
 
+import 'calendar_page.dart';
 import 'home_page.dart';
+import 'info/info_page.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   // Optional clientId

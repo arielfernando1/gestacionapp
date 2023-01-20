@@ -5,13 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/classes/post.dart';
 import 'package:firebase_test/firebase_controllers/firestore_controller.dart';
 import 'package:flutter/material.dart';
-// import filepicker
-import 'package:file_picker/file_picker.dart';
+import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 
 // ignore: must_be_immutable
 class PhotoPage extends StatefulWidget {
-  const PhotoPage({super.key});
+  Firestore firestore = Firestore();
 
+  PhotoPage({super.key});
+  // save to firestore
   @override
   State<PhotoPage> createState() => _PhotoPageState();
 }
@@ -22,8 +23,9 @@ class _PhotoPageState extends State<PhotoPage> {
   Widget build(BuildContext context) {
     TextEditingController titleController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
+    String? path;
+    String? base64;
     final formKey = GlobalKey<FormState>();
-    Firestore firestore = Firestore();
     user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: AppBar(
@@ -39,48 +41,76 @@ class _PhotoPageState extends State<PhotoPage> {
                   hintText: 'Titulo',
                 ),
                 controller: titleController,
+                validator: (value) =>
+                    value!.isEmpty ? 'Titulo requerido' : null,
               ),
               TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Descripcion',
                 ),
                 controller: descriptionController,
-                maxLines: 12,
+                maxLines: 4,
                 validator: (value) =>
                     value!.isEmpty ? 'Descripcion requerida' : null,
               ),
-              ElevatedButton(
-                  onPressed: (() async {
-                    // validate form
-                    final results = await FilePicker.platform.pickFiles(
-                      type: FileType.image,
-                      allowMultiple: false,
-                    );
-                    final path = results!.files.single.path;
-                    //convert to base64
+              FormBuilderImagePicker(
+                  cameraLabel: const Text('Tomar foto'),
+                  galleryLabel: const Text('Seleccionar de galeria'),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Imagen requerida' : null,
+                  name: 'image',
+                  maxImages: 1,
+                  // get image path
+                  onChanged: (value) {
+                    path = value!.first.path;
+                    // convert to base64
                     final bytes = File(path!).readAsBytesSync();
-                    final base64 = base64Encode(bytes);
-                    //get current user id
-
-                    // create post instance
-                    final post = Post(
-                        id: '',
-                        uuid: user.uid,
-                        date: DateTime.now(),
-                        title: titleController.text,
-                        description: descriptionController.text,
-                        file: base64,
-                        postType: 1);
-                    // save post
-                    await firestore.addPost(post);
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushReplacementNamed(context, '/home');
+                    base64 = base64Encode(bytes);
                   }),
-                  child: const Text('Seleccionar Foto')),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                  onPressed: (() {
+                    // validate form
+                    // final results = await FilePicker.platform.pickFiles(
+                    //   type: FileType.image,
+                    //   allowMultiple: false,
+                    // );
+                    // final path = results!.files.single.path;
+                    // //convert to base64
+                    // final bytes = File(path!).readAsBytesSync();
+                    // final base64 = base64Encode(bytes);
+                    // //get current user id
+
+                    // // create post instance
+                    // final post = Post(
+                    //     id: '',
+                    //     uuid: user.uid,
+                    //     date: DateTime.now(),
+                    //     title: titleController.text,
+                    //     description: descriptionController.text,
+                    //     file: base64,
+                    //     postType: 1);
+                    // // save post
+                    // await widget.firestore.addPost(post);
+                    // ignore: use_build_context_synchronously
+                    if (formKey.currentState!.validate()) {
+                      savePost(titleController.text, descriptionController.text,
+                          base64!, user.uid);
+                      // pop until home
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Guardado con exito'),
+                        ),
+                      );
+                    }
+                  }),
+                  child: const Text('Guardar')),
             ]),
           )),
     );
   }
+
 // convert ptoho
   //   return Scaffold(
   //       appBar: AppBar(
@@ -123,4 +153,18 @@ class _PhotoPageState extends State<PhotoPage> {
   //         child: const Icon(Icons.save),
   //       ));
   // }
+  void savePost(
+      String title, String description, String base64, String uuid) async {
+    // create post instance
+    final post = Post(
+        id: '',
+        uuid: uuid,
+        date: DateTime.now(),
+        title: title,
+        description: description,
+        file: base64,
+        postType: 1);
+    // save post
+    await widget.firestore.addPost(post);
+  }
 }

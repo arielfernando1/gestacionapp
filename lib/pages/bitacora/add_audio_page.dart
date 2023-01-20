@@ -55,6 +55,13 @@ class _AudioPageState extends State<AudioPage> {
 
   saveToDatabase(File audio) async {
     late String? user = FirebaseAuth.instance.currentUser?.uid.toString();
+    // get size in bytes
+    final audiobytes = await audio.length();
+    // convert bytes to kb
+    final audiokb = audiobytes / 1024;
+    // show only 2 decimal places
+    audiokb.toStringAsFixed(2);
+
     // convert audio to bytes
     final bytes = await audio.readAsBytes();
     // convert bytes to base64
@@ -64,7 +71,7 @@ class _AudioPageState extends State<AudioPage> {
       id: '',
       uuid: user.toString(),
       title: 'Audio',
-      description: 'Audio description',
+      description: '$audiokb Kb',
       postType: 2,
       date: DateTime.now(),
       file: base64,
@@ -104,6 +111,7 @@ class _AudioPageState extends State<AudioPage> {
                 if (recorder.isRecording) {
                   await stop();
                 } else {
+                  initRecorder();
                   await record();
                 }
                 setState(() {});

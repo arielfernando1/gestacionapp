@@ -5,10 +5,12 @@ import 'package:firebase_test/firebase_controllers/firestore_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+// ignore: must_be_immutable
 class PhotoCard extends StatefulWidget {
-  //list post
   final firestore = Firestore();
   final Post post;
+  //AlertDialog alertDialog;
+  // context
   PhotoCard({super.key, required this.post});
 
   @override
@@ -17,8 +19,13 @@ class PhotoCard extends StatefulWidget {
 
 class _PhotoCardState extends State<PhotoCard> {
   @override
+  void initState() {
+    super.initState();
+    timeago.setLocaleMessages('es', timeago.EsMessages());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ///timeago.setLocaleMessages('es', timeago.EsMessages());
     return Container(
       margin: const EdgeInsets.all(6.00),
       decoration: BoxDecoration(
@@ -31,6 +38,7 @@ class _PhotoCardState extends State<PhotoCard> {
         ),
       ),
       child: Card(
+        color: Colors.transparent,
         child: ListTile(
           leading: CircleAvatar(
             radius: 24,
@@ -38,43 +46,22 @@ class _PhotoCardState extends State<PhotoCard> {
           ),
           title: Text(
             widget.post.title,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+            style: Theme.of(context).textTheme.headline1,
           ),
           subtitle: Text(
             widget.post.description,
-            style: const TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 15,
-                color: Colors.white),
+            style: Theme.of(context).textTheme.subtitle1,
           ),
           trailing: Text(timeago.format(widget.post.date)),
-          onLongPress: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  icon: const Icon(Icons.delete),
-                  title: const Text('Eliminar'),
-                  content: const Text('¿Desea eliminar este post?'),
-                  actions: <Widget>[
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Cancelar')),
-                    TextButton(
-                        onPressed: () {
-                          widget.firestore.destroyPost(widget.post.id);
-                          setState(() {});
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Eliminar'))
-                  ],
-                );
-              },
-            );
-          },
+          onLongPress: () {},
+          // onLongPress: () {
+          //   showDialog(
+          //     context: context,
+          //     builder: (context) {
+          //       return widget.alertDialog;
+          //     },
+          //   );
+          // },
         ),
       ),
     );

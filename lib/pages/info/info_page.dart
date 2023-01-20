@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+import 'book_page.dart';
+import 'contact_page.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
@@ -32,14 +33,11 @@ class _TestPageState extends State<TestPage> {
         ),
         // ignore: prefer_const_constructors
         body: TabBarView(
+          // get books from firestore
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            const Center(
-              child: Text("Libros"),
-            ),
-            const Center(
-              child: Text("Foro de discusión"),
-            ),
+            BookPage(),
+            const ContactPage(),
           ],
         ),
       ),

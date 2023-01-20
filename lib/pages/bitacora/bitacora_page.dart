@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_test/classes/user.dart';
 import 'package:firebase_test/firebase_controllers/firestore_controller.dart';
+import 'package:firebase_test/pages/pdf_page.dart';
+import 'package:firebase_test/widgets/cards/audio_card.dart';
 import 'package:firebase_test/widgets/cards/photo_card.dart';
-import 'package:firebase_test/widgets/card_container.dart';
+import 'package:firebase_test/widgets/dismissible.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:provider/provider.dart';
 
 import '../../classes/post.dart';
 
@@ -25,7 +23,6 @@ class _BitacoraPageState extends State<BitacoraPage> {
   @override
   void initState() {
     super.initState();
-    //widget.firestore.listAll();
   }
 
   @override
@@ -42,9 +39,32 @@ class _BitacoraPageState extends State<BitacoraPage> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Bitacora'),
+          title: const Text('Mi Album'),
           automaticallyImplyLeading: false,
           centerTitle: true,
+          // three dots menu
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.picture_as_pdf,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(width: 8),
+                      Text('Exportar'),
+                    ],
+                  ),
+                  onTap: () => Future(() => Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => PdfPage()))),
+                )
+                // toggle dark mode
+              ],
+            ),
+          ],
         ),
         body: FutureBuilder<List<Post>>(
           future: widget.firestore.listAll(u!.uid),
@@ -55,9 +75,47 @@ class _BitacoraPageState extends State<BitacoraPage> {
                   itemCount: posts!.length,
                   itemBuilder: (context, index) {
                     final post = posts[index];
-                    // if (post.postType == 1) {
-                    // return card with post file as image that is in base64
-                    return CardContainer(post: post);
+                    switch (post.postType) {
+                      case 1:
+                        return MyDismisible(
+                            postid: post.id,
+                            keys: UniqueKey(),
+                            child: PhotoCard(post: post));
+                      case 2:
+                        return MyDismisible(
+                            keys: UniqueKey(),
+                            postid: post.id,
+                            child: AudioCard(post: post));
+                      // return AudioCard(
+                      //   post: post,
+                      //   alertDialog: AlertDialog(
+                      //     icon: const Icon(Icons.audiotrack),
+                      //     title: const Text('Eliminar'),
+                      //     content: const Text(
+                      //         '¿Estás seguro de eliminar este post?'),
+                      //     actions:
+                      //       TextButton(
+                      //         onPressed: () {
+                      //           Navigator.pop(context);
+                      //         },
+                      //         child: const Text('Cancelar'),
+                      //       ),
+                      //       TextButton(
+                      //         onPressed: () {
+                      //           widget.firestore.destroyPost(post.id);
+                      //           setState(() {});
+                      //           Navigator.pop(context);
+                      //         },
+                      //         child: const Text('Eliminar'),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // );
+
+                      default:
+                        return const Text('Error');
+                    }
+
                     // } else if (post.postType == 2) {
                     //   // return card with post info audio and date and icon
                     //   return Card(
@@ -82,6 +140,7 @@ class _BitacoraPageState extends State<BitacoraPage> {
                     //     ),
                     //   );
                   }
+
                   // },
                   );
             } else {

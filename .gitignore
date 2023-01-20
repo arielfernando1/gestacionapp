@@ -44,6 +44,6 @@ app.*.map.json
 /android/app/release
 # Firebase options
 /lib/firebase_options.dart
-/windows/*
-/linux/*
-/web/*
+/windows/
+/linux/
+/web/

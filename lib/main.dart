@@ -5,6 +5,7 @@ import 'package:firebase_test/firebase_options.dart';
 import 'package:firebase_test/pages/bitacora/add_audio_page.dart';
 import 'package:firebase_test/pages/bitacora/add_photo_page.dart';
 import 'package:firebase_test/pages/home_page.dart';
+import 'package:firebase_test/pages/pdf_page.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_facebook/firebase_ui_oauth_facebook.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
@@ -40,23 +41,40 @@ class _MyAppState extends State<MyApp> {
 
       title: 'Gestación',
       theme: ThemeData(
-        primaryColor: Colors.pink,
-        primarySwatch: Colors.pink,
-        // cardTheme: const CardTheme(
-        //   color: Colors.transparent,
-        //   elevation: 5,
-        // ),
-      ),
+          fontFamily: 'Chewy',
+          brightness: Brightness.dark,
+          primaryColor: Colors.pink,
+          primarySwatch: Colors.blue,
+          errorColor: Colors.red[250],
+          // cardTheme: const CardTheme(
+          //   color: Colors.transparent,
+          //   elevation: 5,
+          // ),
+          textTheme: const TextTheme(
+            headline1: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            subtitle1: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w200,
+              letterSpacing: 0.8,
+            ),
+            button: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+          )),
       initialRoute:
-          FirebaseAuth.instance.currentUser == null ? '/sigin' : '/profile',
+          FirebaseAuth.instance.currentUser == null ? '/signin' : '/home',
       routes: {
-        '/sigin': (context) {
+        '/signin': (context) {
           return SignInScreen(
             actions: [
-              ForgotPasswordAction(((context, email) =>
-                  Navigator.of(context).pushNamed('/reset', arguments: email))),
+              ForgotPasswordAction((context, email) => Navigator.of(context)
+                  .pushNamed('/forgot-password', arguments: email)),
               AuthStateChangeAction<SignedIn>(
-                (context, action) => Navigator.of(context).pushNamed('/home'),
+                (context, state) {
+                  Navigator.of(context).pushNamed('/home');
+                },
               ),
               AuthStateChangeAction<UserCreated>(
                 (context, action) => Navigator.of(context).pushNamed('/home'),
@@ -66,16 +84,14 @@ class _MyAppState extends State<MyApp> {
                     .pushNamed('/phone', arguments: verificationId),
               ),
             ],
+            // logout actions
           );
         },
-        '/home': (context) => const HomePage(),
-        '/profile': (context) => ProfileScreen(
-              actions: [
-                SignedOutAction((context) {
-                  Navigator.of(context).pushReplacementNamed('/sigin');
-                }),
-              ],
+        '/forgot-password': (context) => ForgotPasswordScreen(
+              email: ModalRoute.of(context)!.settings.arguments as String,
             ),
+        '/home': (context) => const HomePage(),
+        '/profile': (context) => const ProfileScreen(),
         '/phone': (context) => PhoneInputScreen(
               actions: [
                 SMSCodeRequestedAction(
@@ -98,8 +114,9 @@ class _MyAppState extends State<MyApp> {
             ),
           ], flowKey: args['flowKey'], action: args['action']);
         },
-        '/photo': (context) => const PhotoPage(),
+        '/photo': (context) => PhotoPage(),
         '/audio': (context) => AudioPage(),
+        '/pdf': (context) => PdfPage(),
       },
     );
   }

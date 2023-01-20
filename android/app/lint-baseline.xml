@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.1.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.1.2)" variant="fatal" version="7.1.2">
+
+    <issue
+        id="MissingDefaultResource"
+        message="The plurals &quot;fui_error_weak_password&quot; in values-es has no declaration in the base `values` folder; this can lead to crashes when the resource is queried in a configuration that does not match this qualifier"
+        errorLine1="    &lt;plurals name=&quot;fui_error_weak_password&quot;> &lt;item quantity=&quot;one&quot;>La contraseña no es lo suficientemente segura. Usa %1$d carácter como mínimo y combina letras y números.&lt;/item> &lt;item quantity=&quot;other&quot;>La contraseña no es lo suficientemente segura. Usa %1$d caracteres como mínimo y combina letras y números.&lt;/item> &lt;/plurals>"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-es/strings.xml"
+            line="39"
+            column="14"/>
+    </issue>
+
+</issues>

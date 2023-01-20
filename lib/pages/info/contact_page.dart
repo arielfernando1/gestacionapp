@@ -1,14 +1,14 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class NewsPage extends StatefulWidget {
-  const NewsPage({super.key});
+class ContactPage extends StatefulWidget {
+  const ContactPage({super.key});
 
   @override
-  State<NewsPage> createState() => _NewsPageState();
+  State<ContactPage> createState() => _ContactPageState();
 }
 
-class _NewsPageState extends State<NewsPage> {
+class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return Container();
