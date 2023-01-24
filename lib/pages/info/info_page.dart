@@ -19,6 +19,7 @@ class _TestPageState extends State<TestPage> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
+
           title: const Text("Informate"),
           // no back button
           automaticallyImplyLeading: false,

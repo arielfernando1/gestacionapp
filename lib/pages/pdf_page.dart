@@ -4,7 +4,7 @@ import 'package:printing/printing.dart';
 
 import '../classes/post.dart';
 import '../firebase_controllers/firestore_controller.dart';
-import 'bitacora.dart';
+import 'bitacora_generator.dart';
 
 class PdfPage extends StatefulWidget {
   final firestore = Firestore();
@@ -32,6 +32,8 @@ class _PdfPageState extends State<PdfPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return PdfPreview(
+              canDebug: false,
+              canChangePageFormat: false,
               build: (format) => generatePdf(format, snapshot.data!),
               // show snackbar on share
               maxPageWidth: 600,

@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:test/test.dart';
 
 import 'email_validator.dart';

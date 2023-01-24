@@ -8,9 +8,8 @@ class Storage {
     final file = File(filePath);
     try {
       await firebaseStorage.ref('test/$fileName').putFile(file);
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       // e.g, e.code == 'canceled'
-      print(e);
     }
   }
 

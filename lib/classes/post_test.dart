@@ -1,6 +1,5 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:firebase_test/classes/post.dart';
 import 'package:test/test.dart';
 
 import 'email_validator.dart';

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/firebase_controllers/firestore_controller.dart';
 import 'package:firebase_test/pages/pdf_page.dart';
@@ -22,8 +24,10 @@ class _BitacoraPageState extends State<BitacoraPage> {
   User? u;
   @override
   void initState() {
+    log('BitacoraPage: initState()');
     super.initState();
   }
+  // set state
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +84,9 @@ class _BitacoraPageState extends State<BitacoraPage> {
                         return MyDismisible(
                             postid: post.id,
                             keys: UniqueKey(),
-                            child: PhotoCard(post: post));
+                            child: PhotoCard(
+                              post: post,
+                            ));
                       case 2:
                         return MyDismisible(
                             keys: UniqueKey(),
@@ -153,6 +159,7 @@ class _BitacoraPageState extends State<BitacoraPage> {
             overlayStyle: ExpandableFabOverlayStyle(blur: 10),
             children: [
               FloatingActionButton(
+                heroTag: "btn1",
                 onPressed: () {
                   // go to add photo page
                   Navigator.pushNamed(context, '/photo').then((value) =>
@@ -162,13 +169,15 @@ class _BitacoraPageState extends State<BitacoraPage> {
                 child: const Icon(Icons.image),
               ),
               FloatingActionButton(
+                heroTag: "btn2",
                 onPressed: () {
                   Navigator.pushNamed(context, '/audio')
                       .then((value) => setState(() {}));
                 },
-                child: const Icon(Icons.audiotrack),
+                child: const Icon(Icons.mic),
               ),
               FloatingActionButton(
+                heroTag: "btn3",
                 onPressed: () {},
                 child: const Icon(Icons.abc),
               ),

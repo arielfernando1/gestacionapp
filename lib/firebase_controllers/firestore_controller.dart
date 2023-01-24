@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_test/classes/book.dart';
 import '../classes/post.dart';
@@ -6,7 +8,11 @@ class Firestore {
   // add post to firestore by uuid
   Future<void> addPost(Post post) async {
     final firebaseFirestore = FirebaseFirestore.instance;
-    await firebaseFirestore.collection('posts').add(post.toJson());
+    try {
+      await firebaseFirestore.collection('posts').add(post.toJson());
+    } on FirebaseException catch (e) {
+      log('Error adding post: $e');
+    }
   }
 
   // list all posts only for current uuid
@@ -31,7 +37,18 @@ class Firestore {
     return posts;
   }
 
-  //destroy post by uuid
+  // update post
+  Future<void> updatePost(Post post) async {
+    final firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection('posts')
+        .doc(post.id)
+        .update(post.toJson())
+        .then((value) => log('Post ${post.id} updated'))
+        .catchError((error) => log('Error updating post: $error'));
+  }
+
+  //destroy post by id
   Future<void> destroyPost(String id) async {
     final firebaseFirestore = FirebaseFirestore.instance;
     await firebaseFirestore.collection('posts').doc(id).delete();

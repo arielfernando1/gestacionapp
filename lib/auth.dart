@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+// ignore: depend_on_referenced_packages
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -20,8 +21,6 @@ class Authentication {
         } else if (e.code == 'invalid-credential') {
           // handle the error here
         }
-      } catch (e) {
-        print('Error: $e');
       }
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -48,8 +47,6 @@ class Authentication {
           } else if (e.code == 'invalid-credential') {
             // handle the error here
           }
-        } catch (e) {
-          print('Error: $e');
         }
       }
     }

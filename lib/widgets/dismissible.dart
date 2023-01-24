@@ -52,9 +52,12 @@ class _MyDismisibleState extends State<MyDismisible> {
           builder: (context) {
             return AlertDialog(
               backgroundColor: Theme.of(context).backgroundColor,
-              icon: const Icon(Icons.edit),
+              icon: const Icon(Icons.delete),
               title: const Text("Confirmar"),
-              content: const Text("¿Estás seguro de eliminar este post?"),
+              content: const Text(
+                "¿Estás seguro de eliminar este recuerdo?",
+                textAlign: TextAlign.center,
+              ),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => widget.firestore

@@ -19,7 +19,6 @@ class ExpandableFAB extends StatefulWidget {
 class _ExpandableFABState extends State<ExpandableFAB>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _expandAnimation;
   bool _isOpen = false;
   @override
   void initState() {
@@ -29,10 +28,6 @@ class _ExpandableFABState extends State<ExpandableFAB>
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
-    _expandAnimation = CurvedAnimation(
-        parent: _controller,
-        curve: Curves.fastOutSlowIn,
-        reverseCurve: Curves.easeOutQuad);
   }
 
   @override

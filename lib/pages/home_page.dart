@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   final widgetOptions = [
     BitacoraPage(),
     const TestPage(),
-    const NewsPage(),
+    const CalendarPage(),
     ProfileScreen(
       actions: [
         SignedOutAction((context) {
@@ -56,30 +56,48 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: widgetOptions.elementAt(selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Album',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'Informate',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: 'Recordatorios',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
+      bottomNavigationBar: NavigationBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        selectedIndex: selectedIndex,
+        // ignore: prefer_const_literals_to_create_immutables
+        destinations: <Widget>[
+          const NavigationDestination(icon: Icon(Icons.book), label: 'Album'),
+          const NavigationDestination(
+              icon: Icon(Icons.info), label: 'Informate'),
+          const NavigationDestination(
+              icon: Icon(Icons.calendar_month), label: 'Recordatorios'),
+          const NavigationDestination(
+              icon: Icon(Icons.person), label: 'Perfil'),
         ],
-        currentIndex: selectedIndex,
-        selectedItemColor: Colors.pinkAccent,
-        onTap: onItemTapped,
+        onDestinationSelected: (index) {
+          onItemTapped(index);
+        },
       ),
+      // bottomNavigationBar:
+      // BottomNavigationBar(
+      //   type: BottomNavigationBarType.fixed,
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.book),
+      //       label: 'Album',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.info),
+      //       label: 'Informate',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.calendar_month),
+      //       label: 'Recordatorios',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.person),
+      //       label: 'Perfil',
+      //     ),
+      //   ],
+      //   currentIndex: selectedIndex,
+      //   selectedItemColor: Colors.pinkAccent,
+      //   onTap: onItemTapped,
+      // ),
     );
   }
 }

@@ -1,21 +1,18 @@
 import 'dart:async';
-import 'dart:convert' show json;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/auth.dart';
 import 'package:firebase_test/classes/user.dart';
 import 'package:firebase_test/pages/bitacora/bitacora_page.dart';
 
-import 'package:firebase_test/pages/user_info.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// ignore: depend_on_referenced_packages
 import 'package:google_sign_in/google_sign_in.dart';
 // ignore: depend_on_referenced_packages
-import 'package:http/http.dart' as http;
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 // ignore: depend_on_referenced_packages
 
@@ -51,11 +48,10 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   int selectedIndex = 0;
-  GoogleSignInAccount? _currentUser;
   final widgetOptions = [
     BitacoraPage(),
     const TestPage(),
-    const NewsPage(),
+    const CalendarPage(),
   ];
   void onItemTapped(int index) {
     setState(() {

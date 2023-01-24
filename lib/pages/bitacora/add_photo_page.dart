@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/classes/post.dart';
 import 'package:firebase_test/firebase_controllers/firestore_controller.dart';
+import 'package:firebase_test/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 
@@ -69,38 +70,21 @@ class _PhotoPageState extends State<PhotoPage> {
                   }),
               const SizedBox(height: 20),
               ElevatedButton(
-                  onPressed: (() {
-                    // validate form
-                    // final results = await FilePicker.platform.pickFiles(
-                    //   type: FileType.image,
-                    //   allowMultiple: false,
-                    // );
-                    // final path = results!.files.single.path;
-                    // //convert to base64
-                    // final bytes = File(path!).readAsBytesSync();
-                    // final base64 = base64Encode(bytes);
-                    // //get current user id
-
-                    // // create post instance
-                    // final post = Post(
-                    //     id: '',
-                    //     uuid: user.uid,
-                    //     date: DateTime.now(),
-                    //     title: titleController.text,
-                    //     description: descriptionController.text,
-                    //     file: base64,
-                    //     postType: 1);
-                    // // save post
-                    // await widget.firestore.addPost(post);
-                    // ignore: use_build_context_synchronously
+                  onPressed: (() async {
                     if (formKey.currentState!.validate()) {
-                      savePost(titleController.text, descriptionController.text,
-                          base64!, user.uid);
+                      await savePost1(titleController.text,
+                          descriptionController.text, base64!, user.uid);
                       // pop until home
-                      Navigator.pop(context);
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Guardado con exito'),
+                          backgroundColor: Colors.green,
+                          content: Text('Foto guardada correctamente'),
                         ),
                       );
                     }
@@ -154,6 +138,21 @@ class _PhotoPageState extends State<PhotoPage> {
   //       ));
   // }
   void savePost(
+      String title, String description, String base64, String uuid) async {
+    // create post instance
+    final post = Post(
+        id: '',
+        uuid: uuid,
+        date: DateTime.now(),
+        title: title,
+        description: description,
+        file: base64,
+        postType: 1);
+    // save post
+    await widget.firestore.addPost(post);
+  }
+
+  Future<void> savePost1(
       String title, String description, String base64, String uuid) async {
     // create post instance
     final post = Post(

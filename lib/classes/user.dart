@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+// ignore: depend_on_referenced_packages
 import 'package:google_sign_in/google_sign_in.dart';
 
 class CurrentUser with ChangeNotifier {

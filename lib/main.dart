@@ -1,10 +1,13 @@
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_test/classes/stick_it.dart';
 import 'package:firebase_test/firebase_options.dart';
 import 'package:firebase_test/pages/bitacora/add_audio_page.dart';
 import 'package:firebase_test/pages/bitacora/add_photo_page.dart';
 import 'package:firebase_test/pages/home_page.dart';
+import 'package:firebase_test/pages/login_screen_1.dart';
 import 'package:firebase_test/pages/pdf_page.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_facebook/firebase_ui_oauth_facebook.dart';
@@ -35,6 +38,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
+  void initState() {
+    super.initState();
+    log('MyApp: initState()');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       // ignore: prefer_const_literals_to_create_immutables
@@ -42,14 +51,13 @@ class _MyAppState extends State<MyApp> {
       title: 'Gestación',
       theme: ThemeData(
           fontFamily: 'Chewy',
-          brightness: Brightness.dark,
-          primaryColor: Colors.pink,
-          primarySwatch: Colors.blue,
+          brightness: Brightness.light,
+          primaryColor: const Color.fromRGBO(255, 175, 204, 1),
+          backgroundColor: const Color.fromRGBO(189, 224, 254, 1),
           errorColor: Colors.red[250],
-          // cardTheme: const CardTheme(
-          //   color: Colors.transparent,
-          //   elevation: 5,
-          // ),
+          // ignore: prefer_const_constructors
+          appBarTheme: AppBarTheme(
+              color: const Color.fromRGBO(255, 175, 204, 1), centerTitle: true),
           textTheme: const TextTheme(
             headline1: TextStyle(
               fontSize: 20,
@@ -68,6 +76,23 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/signin': (context) {
           return SignInScreen(
+            headerBuilder: (context, constraints, shrinkOffset) {
+              return Padding(
+                padding: const EdgeInsets.all(1),
+                child: Image.asset('assets/logo.png'),
+              );
+            },
+            footerBuilder: (context, action) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Al continuar, aceptas nuestros Términos de Servicio y Política de Privacidad',
+                  style: Theme.of(context).textTheme.subtitle1,
+                  textAlign: TextAlign.center,
+                ),
+              );
+            },
+
             actions: [
               ForgotPasswordAction((context, email) => Navigator.of(context)
                   .pushNamed('/forgot-password', arguments: email)),
@@ -117,6 +142,8 @@ class _MyAppState extends State<MyApp> {
         '/photo': (context) => PhotoPage(),
         '/audio': (context) => AudioPage(),
         '/pdf': (context) => PdfPage(),
+        '/customlogin': (context) => const CustomLogin(),
+        '/edit_post': (context) => StickerPage()
       },
     );
   }
